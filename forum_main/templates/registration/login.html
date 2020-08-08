@@ -1,0 +1,44 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+{% block content %}
+<section class="register">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-5">
+                <img class="rounded logo" src="{% static 'img/Logo.webp'%}" height="100" width="100" alt="Logo" >
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                    <h3>Inccorect password. Try again.</h3>
+                    {% endif %}
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                            <p>No access to the page</p>
+                        {% else %}
+                            <p>Login please.</p>
+                        {% endif %}
+                    {% endif %}
+                    <table>
+
+                        <tr>
+                          <td>{{ form.username.label_tag }}</td>
+                          <td>{{ form.username }}</td>
+                        </tr>
+                        
+                        <tr>
+                          <td>{{ form.password.label_tag }}</td>
+                          <td>{{ form.password }}</td>
+                        </tr>
+                        </table>
+                    <small><a href="{% url 'password_reset' %}">Remember password</a></small>
+                    <br>
+                    <input type="submit" value="login">
+                    <input type="hidden" name="next" value='{{next}}'>
+                </form>
+                <span>© 2020-2020</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

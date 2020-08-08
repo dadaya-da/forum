@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-4.5.0-dist/css/bootstrap.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a href="{% url 'main-menu' %}"><img class="rounded" src="{% static 'img/Logo.webp'%}" height="55" width="55" alt="main page"></a>
+        <button class="navbar-toggler" type="button" data-togle="collapse" data-target='#navbarCollaple'>
+            <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarCollaple">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                </li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="" class="nav-link dropdown-toggle" id="navbarDropdown"
+                    data-toggle="dropdown">Actions</a>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'creation' %}" class="dropdown-item">Create post</a>
+                        <a href="#" class="dropdown-item">lorem2</a>
+                        <a href="#" class="dropdown-item">lorem</a>
+                        <a href="#" class="dropdown-item">lorem</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link"></a>
+                </li>
+            </ul>
+            <form class="form-inline">
+                <input class="mr-2 form-control" type="search" placeholder="Search" name="search" id="">
+                <button class="btn btn-outline-success">Search</button>
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item text-white nav-link">
+                        {{user.get_username}}
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}?next={{request.path}}" class="nav-link">Log out</a>
+                    </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}?next={{request.path}}" class="nav-link">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Sign up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </form>
+        </div>
+    </nav>
+    {% block content %}
+    None posts. Please wait
+    {% endblock %}
+<script src="{% static 'lib/jquery.js' %}" ></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="{% static 'lib/bootstrap-4.5.0-dist/js/bootstrap.js' %}"></script>
+</body>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <img src="{% static 'img/guest.jpg' %}" alt="">
+            <h6>@username</h6>
+            <small>Сообщений: 16,963</small>
+            <br>
+            <small>Очки репутации: 221,385</small>
+            <p></p>
+        </div>
+        <div class="col-10 user_text">
+            <h5>{{post.post_name}}</h5>
+            <hr>
+            {{post.post_text}}
+        </div>
+        {% if comment_list %}
+            {% for comment in comment_list %}
+            <div class="col-2">
+                <img src="{% static 'img/guest.jpg' %}" alt="">
+                <h6>@username</h6>
+                <small>Сообщений: 16,963</small>
+                <br>
+                <small>Очки репутации: 221,385</small>
+                <p></p>
+            </div>
+            <div class="col-10 user_text">
+                <hr>
+                {{comment.comment_text}}
+                <br>
+                <small>{{comment.comment_data}}</small>
+                <small>{{comment.comment_like}} Like</small>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No comments are available.</p>
+        {% endif %}
+    </div>
+</div>
+<div class="container">
+    <form class="text-right" action="#">
+        {% if user.is_authenticated %}
+            <textarea class="w-100" name="comment" id="" cols="30" rows="10"></textarea>
+            <button class="btn btn-primary btn-lg">Send messege</button>
+        {% else %}
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

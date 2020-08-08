@@ -1,0 +1,30 @@
+
+.logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-top: 20px
+}
+.register{
+    text-align: center;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 15%;
+}
+.register button{
+    margin-bottom: 20px;
+}
+.menu-header{
+    background-color: darkorchid;
+}
+.text-logo{
+    margin-top: 20px;
+    color: #ffffff;
+}
+.dialog{
+    background-color: rgb(233, 249, 255);
+}
+.user_text{
+    border-left: 3px rgb(177, 220, 228) solid;
+}

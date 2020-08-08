@@ -1,0 +1,95 @@
+{% extends 'forum/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="nav-scroller shadow-sm bg-white">
+        <nav class="nav nav-underline">
+            <a class="nav-link" href="#">Dashboard</a>
+            <a class="nav-link" href="#">Friends <span>27</span></a>
+            <a class="nav-link" href="#">Explore</a>
+            <a class="nav-link" href="#">Suggestions</a>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row menu-header rounded">
+            <div class="col-2">
+                <img class="logo rounded" src="{% static 'img/Logo.webp'%}" height="70" width="70" alt="Logo">
+            </div>
+            <div class="col-10 text-logo">
+                <h3>Dadaya</h3>
+                <small>Since 2020</small>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>Recent updates</h3>
+                <hr>
+            </div>
+            {% if post_displayed_list %}
+                {% for post in post_displayed_list.all %}
+                <div class="col-1">
+                    <img class="img-fluid" src="{% static 'img/man1.webp' %}" alt="">
+                </div>
+                <div class="col-11">
+                    <h6>@username</h6>
+                    <p>{{post.post_text}}</p>
+                    <small>{{post.post_data}}</small>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <small class="text-right">{{post.post_like}} Like</small>
+                            <a class=" text-right offset-10" href="{% url 'dialog' post.id %}">Comment</a>
+                    </div>
+                    <a href="{% url 'like' post.id %}">Like</a>
+                    <hr>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No post are available.</p>
+            {% endif %}
+            <div class="col-2 offset-10 text-right"><a href="#">All updates</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>Suggestions</h3>
+                <hr>
+            </div>
+            <div class="col-1">
+                <img class="img-fluid" src="../static/img/man1.webp" alt="">
+            </div>
+            <div class="col-11">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <h6>Full Name</h6>
+                    <a href="#">Follow</a>
+                </div>
+                <p>@username</p>
+                <hr>
+            </div>
+            <div class="col-1">
+                <img class="img-fluid" src="../static/img/man1.webp" alt="">
+            </div>
+            <div class="col-11">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <h6>Full Name</h6>
+                    <a href="#">Follow</a>
+                </div>
+                <p>@username</p>
+                <hr>
+            </div>
+            <div class="col-1">
+                <img class="img-fluid" src="../static/img/man1.webp" alt="">
+            </div>
+            <div class="col-11">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <h6>Full Name</h6>
+                    <a href="#">Follow</a>
+                </div>
+                <p>@username</p>
+                <hr>
+            </div>
+            <div class="col-2 offset-10 text-right"><a href="#">All suggestions</a></div>
+        </div>
+    </div>
+{% endblock %}
