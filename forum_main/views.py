@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from .models import Post, Comment
-from .forms import AddNewPost
+from .forms import AddNewPost, AddNewComment
 import time, datetime
 # Create your views here.
 def register(request):
@@ -18,11 +18,16 @@ def main_menu(request):
     }
     return render(request, 'forum/main-menu.html', context)
 def dialog(request, post_id):
-    post = get_object_or_404(Post, pk = post_id)
-    comments_list = get_list_or_404(Comment, post = post)
+    try:
+        post = Post.objects.get(pk = post_id)
+    except Post.DoesNotExist as identifier:
+        return HttpResponse('None comments now.')
+    comments_list = Comment.objects.filter(post = post)
+    form = AddNewComment(request.POST)
     context = {
         "comment_list":comments_list,
         "post": post,
+        'form': form,
     }
     return render(request, 'forum/dialog.html', context)
 def creation(request):
@@ -32,6 +37,7 @@ def creation(request):
         }
     if request.method == 'POST':
         new_post = Post()
+        new_post.post_user = request.user
         new_post.post_name = form.data["post_name"]
         new_post.post_text = form.data["post_text"]
         new_post.post_data = datetime.datetime.now()
@@ -44,7 +50,7 @@ def post_create_complete(request):
         1:1
     }
     return render(request, 'create_post.html', context)
-def like(request, post_id):
+def post_like_mm(request, post_id):
     post = get_object_or_404(Post, pk = post_id)
     post.post_like += 1
     post.save()
@@ -55,3 +61,57 @@ def like(request, post_id):
         "post_displayed_list":posts_displayed_list,
     }
     return render(request, 'forum/main-menu.html', context)
+def post_like_dialog(request, post_id):
+    post = get_object_or_404(Post, pk = post_id)
+    post.post_like += 1
+    post.save()
+    try:
+        post = Post.objects.get(pk = post_id)
+    except Post.DoesNotExist as identifier:
+        return HttpResponse('None comments now.')
+    comments_list = Comment.objects.filter(post = post)
+    form = AddNewComment(request.POST)
+    context = {
+        "comment_list":comments_list,
+        "post": post,
+        'form': form,
+    }
+    return render(request, 'forum/dialog.html', context)
+def comment_like(request, post_id, comment_id):
+    post = get_object_or_404(Post, pk = post_id)
+    comment = get_object_or_404(Comment, pk = comment_id)
+    comment.comment_like += 1
+    comment.save()
+    try:
+        post = Post.objects.get(pk = post_id)
+    except Post.DoesNotExist as identifier:
+        return HttpResponse('None comments now.')
+    comments_list = Comment.objects.filter(post = post)
+    form = AddNewComment(request.POST)
+    context = {
+        "comment_list":comments_list,
+        "post": post,
+        'form': form,
+    }
+    return render(request, 'forum/dialog.html', context)
+def comment(request, post_id):
+    try:
+        post = Post.objects.get(pk = post_id)
+    except Post.DoesNotExist as identifier:
+        return HttpResponse('None comments now.')
+    comments_list = Comment.objects.filter(post = post)
+    form = AddNewComment(request.POST)
+    context = {
+        "comment_list":comments_list,
+        "post": post,
+        'form': form,
+    }
+    if request.method == 'POST':
+        new_comment = Comment()
+        new_comment.comment_user = request.user
+        new_comment.comment_text = form.data["comment_text"]
+        new_comment.comment_data = datetime.datetime.now()
+        new_comment.comment_like = 0
+        new_comment.post = get_object_or_404(Post, pk = post_id)
+        new_comment.save()
+    return render(request, "forum/dialog.html", context)

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-2">
             <img src="{% static 'img/guest.jpg' %}" alt="">
-            <h6>@username</h6>
+            <h6>{{ post.post_user }}</h6>
             <small>Сообщений: 16,963</small>
             <br>
             <small>Очки репутации: 221,385</small>
@@ -15,12 +15,15 @@
             <h5>{{post.post_name}}</h5>
             <hr>
             {{post.post_text}}
+            <br>
+            <small>{{post.post_data}}</small>
+            <small >{{post.post_like}} <a href="{% url 'post_like_dialog' post.id %}">Like</a></small>
         </div>
         {% if comment_list %}
             {% for comment in comment_list %}
             <div class="col-2">
                 <img src="{% static 'img/guest.jpg' %}" alt="">
-                <h6>@username</h6>
+                <h6>{{ comment.comment_user }}</h6>
                 <small>Сообщений: 16,963</small>
                 <br>
                 <small>Очки репутации: 221,385</small>
@@ -31,7 +34,7 @@
                 {{comment.comment_text}}
                 <br>
                 <small>{{comment.comment_data}}</small>
-                <small>{{comment.comment_like}} Like</small>
+                <small>{{comment.comment_like}} <a href="{% url 'like_comment' post.id comment.id %}">Like</a></small>
             </div>
             {% endfor %}
         {% else %}
@@ -40,11 +43,13 @@
     </div>
 </div>
 <div class="container">
-    <form class="text-right" action="#">
+    <form class="text-right" action="{% url 'comment' post.id %}" method="POST">
         {% if user.is_authenticated %}
-            <textarea class="w-100" name="comment" id="" cols="30" rows="10"></textarea>
-            <button class="btn btn-primary btn-lg">Send messege</button>
-        {% else %}
+            {% csrf_token %}
+            <table>
+            {{ form }}
+            </table>
+            <input type="submit" value="Submit"/>
         {% endif %}
     </form>
 </div>
