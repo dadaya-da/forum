@@ -17,7 +17,13 @@
             {{post.post_text}}
             <br>
             <small>{{post.post_data}}</small>
-            <small >{{post.post_like}} <a href="{% url 'post_like_dialog' post.id %}">Like</a></small>
+            <small >{{post.post_like}}
+                {% if user.is_authenticated %}
+                <a href="{% url 'post_like_dialog' post.id %}">Like</a>
+                {% else %}
+                    <span>Like</span>
+                {% endif %}
+            </small>
         </div>
         {% if comment_list %}
             {% for comment in comment_list %}
@@ -34,7 +40,13 @@
                 {{comment.comment_text}}
                 <br>
                 <small>{{comment.comment_data}}</small>
-                <small>{{comment.comment_like}} <a href="{% url 'like_comment' post.id comment.id %}">Like</a></small>
+                <small>{{comment.comment_like}}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'like_comment' post.id comment.id %}">Like</a>
+                    {% else %}
+                    <span>Like</span>
+                    {% endif %}
+                </small>
             </div>
             {% endfor %}
         {% else %}

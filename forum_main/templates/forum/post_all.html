@@ -26,43 +26,8 @@
                 <h3>Recent updates</h3>
                 <hr>
             </div>
-            {% if post_displayed_list %}
-                {% for post in post_displayed_list.all %}
-                <div class="col-1">
-                    <img class="img-fluid" src="{% static 'img/man1.webp' %}" alt="">
-                </div>
-                <div class="col-11">
-                    <h6>{{ post.post_user}}</h6>
-                    <p>{{post.post_name}}</p>
-                    <small>{{post.post_data}}</small>
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <small class="text-right">{{post.post_like}}
-                            {% if user.is_authenticated %}
-                                <a href="{% url 'like' post.id %}">Like</a>
-                            {% else %}
-                                <span>Like</span>
-                            {% endif %}
-                        </small>
-                            <a class=" text-right offset-10" href="{% url 'dialog' post.id %}">Comment</a>
-                    </div>
-                    <hr>
-                </div>
-                {% endfor %}
-            {% else %}
-                <p>No post are available.</p>
-            {% endif %}
-            <div class="col-2 offset-10 text-right"><a href="{% url 'post_all' %}">All updates</a></div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h3>Most popular</h3>
-                <hr>
-            </div>
-            {% if post_popular_list %}
-                {% for post in post_popular_list.all %}
+            {% if post_list %}
+                {% for post in post_list.all %}
                 <div class="col-1">
                     <img class="img-fluid" src="{% static 'img/man1.webp' %}" alt="">
                 </div>
